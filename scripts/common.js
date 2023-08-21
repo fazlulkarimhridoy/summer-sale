@@ -2,6 +2,9 @@ const totalPriceField = document.getElementById('total-price');
 const priceField = document.getElementById('total');
 const listElement = document.getElementById('product-list');
 const discountFieldString = document.getElementById('discount-price');
+const couponButton = document.getElementById('btn-coupon');
+const purchaseButton = document.getElementById('purchase-button');
+
 
 // common total-function
 function commonCardById(priceId, titleId) {
@@ -11,10 +14,29 @@ function commonCardById(priceId, titleId) {
     const totalPriceString = totalPriceField.innerText;
     const totalPrice = parseFloat(totalPriceString);
     const newTotalPrice = totalPrice + price;
-    totalPriceField.innerText = newTotalPrice;
+    const newTotalPriceDecimal = newTotalPrice.toFixed(2);
+    totalPriceField.innerText = newTotalPriceDecimal;
+    // disable & enable coupon
+    if(newTotalPriceDecimal >= 200){
+        couponButton.disabled = false;
+    }
+    else{
+        couponButton.disabled = true;
+    }
+
+    // disable & enable purchase button
+    if(newTotalPriceDecimal != 0){
+        purchaseButton.disabled = false;
+    }
+    else{
+        purchaseButton.disabled = true;
+    }
+        
+    
 
     // price after discount
-    priceField.innerText = newTotalPrice;
+    priceField.innerText = newTotalPriceDecimal;
+    
 
     // set element is list
     const cardName = cardTitle(titleId);
@@ -22,7 +44,6 @@ function commonCardById(priceId, titleId) {
     newListElement.innerText = cardName;
     listElement.appendChild(newListElement);
 }
-
 
 
 
@@ -71,27 +92,19 @@ function couponSet() {
     }
 }
 
-// coupon button disabled
-const couponInput = document.getElementById('coupon-id');
-const subscribeButton = document.getElementById('btn-coupon');
-
-couponInput.addEventListener('input', function () {
-    if (couponInput.value.length >= 1) {
-        subscribeButton.removeAttribute('disabled', 'false');
-    } else {
-        subscribeButton.setAttribute('disabled', 'true');
-    }
-});
-
 
 // clearing html after clicking go home
 document.getElementById('final-purchase').addEventListener('click', function () {
-    totalPriceField.innerHTML = "00";
-    priceField.innerHTML = "00";
+    totalPriceField.innerHTML = "00.00";
+    priceField.innerHTML = "00.00";
     listElement.innerText = " ";
-    discountFieldString.innerText = " ";
+    discountFieldString.innerText = "00.00";
+    purchaseButton.disabled = true;
+    couponButton.disabled = true;
 
 })
+
+
 
 
 

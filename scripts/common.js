@@ -1,0 +1,99 @@
+const totalPriceField = document.getElementById('total-price');
+const priceField = document.getElementById('total');
+const listElement = document.getElementById('product-list');
+const discountFieldString = document.getElementById('discount-price');
+
+// common total-function
+function commonCardById(priceId, titleId) {
+    const price = cardPriceById(priceId);
+
+    // total-price
+    const totalPriceString = totalPriceField.innerText;
+    const totalPrice = parseFloat(totalPriceString);
+    const newTotalPrice = totalPrice + price;
+    totalPriceField.innerText = newTotalPrice;
+
+    // price after discount
+    priceField.innerText = newTotalPrice;
+
+    // set element is list
+    const cardName = cardTitle(titleId);
+    const newListElement = document.createElement('li');
+    newListElement.innerText = cardName;
+    listElement.appendChild(newListElement);
+}
+
+
+
+
+
+//common price-function
+function cardPriceById(priceId) {
+    const cardElement = document.getElementById(priceId);
+    const cardPriceString = cardElement.innerText;
+    const cardPrice = parseFloat(cardPriceString);
+    return cardPrice;
+}
+
+
+// common card title
+function cardTitle(titleId) {
+    const cardTitleElement = document.getElementById(titleId);
+    const cardTitle = cardTitleElement.innerText;
+    return cardTitle;
+}
+
+// set discount & total price
+function couponSet() {
+    const couponElement = document.getElementById('coupon-id');
+    const couponValue = couponElement.value;
+    couponElement.value = " ";
+    if (couponValue === 'SELL200') {
+        const newTotalPrice = cardPriceById('total-price');
+        const totalPriceFiledString = document.getElementById('total')
+
+        // discount price set
+        if (newTotalPrice > 200) {
+            const discountPrice = newTotalPrice * 0.2;
+            discountFieldString.innerText = discountPrice;
+            // total price set
+            const totalPrice = newTotalPrice - discountPrice;
+            totalPriceFiledString.innerText = totalPrice;
+        }
+        else {
+            alert('Price does not meet discount requirement');
+        }
+
+    }
+    else {
+        alert('Incorrect Coupon code!')
+        return;
+    }
+}
+
+// coupon button disabled
+const couponInput = document.getElementById('coupon-id');
+const subscribeButton = document.getElementById('btn-coupon');
+
+couponInput.addEventListener('input', function () {
+    if (couponInput.value.length >= 1) {
+        subscribeButton.removeAttribute('disabled', 'false');
+    } else {
+        subscribeButton.setAttribute('disabled', 'true');
+    }
+});
+
+
+// clearing html after clicking go home
+document.getElementById('final-purchase').addEventListener('click', function () {
+    totalPriceField.innerHTML = "00";
+    priceField.innerHTML = "00";
+    listElement.innerText = " ";
+    discountFieldString.innerText = " ";
+
+})
+
+
+
+
+

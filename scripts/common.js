@@ -76,7 +76,9 @@ function couponSet() {
         // discount price set
         if (newTotalPrice > 200) {
             const discountPrice = newTotalPrice * 0.2;
-            discountFieldString.innerText = discountPrice;
+            const discountPriceDecimal = discountPrice.toFixed(2);
+            discountFieldString.innerText = discountPriceDecimal;
+            
             // total price set
             const totalPrice = newTotalPrice - discountPrice;
             totalPriceFiledString.innerText = totalPrice;
